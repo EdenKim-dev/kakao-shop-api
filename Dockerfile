@@ -9,7 +9,7 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 
 RUN gradle wrapper
 
-RUN ./gradlew build -x test
+RUN ./gradlew clean build
 
 # Stage 2: Run the application
 FROM eclipse-temurin:17-jre
@@ -18,6 +18,6 @@ WORKDIR /opt/techcampus
 
 COPY --from=build /home/gradle/project/build/libs/kakao-1.0.jar .
 
-ENV DATABASE_URL=jdbc:mariadb://localhost:3306/kakao
+ENV DATABASE_URL=jdbc:mariadb://mariadb/kakao
 
-CMD ["java", "-jar", "-Dspring.profiles.active=local", "kakao-1.0.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=prod", "kakao-1.0.jar"]
